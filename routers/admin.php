@@ -10,6 +10,7 @@ $router->mount('/admin', function() use ($router) {
     });
 
     // will result in '/admin/users'
-    $router->get('/users', UserController::class . '@testBaseModel');
+    $router->get('/users', UserController::class . '@index');
 
+    $router->post('/users/testUploadFile', UserController::class . '@testUploadFile');
 });

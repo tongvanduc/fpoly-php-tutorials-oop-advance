@@ -2,9 +2,10 @@
 
 namespace App\Controllers\Admin;
 
+use App\Controller;
 use App\Models\User;
 
-class UserController
+class UserController extends Controller
 {
     private User $user;
 
@@ -13,29 +14,30 @@ class UserController
         $this->user = new User();
     }
 
-    public function testBaseModel()
+    public function index()
     {
-        echo '<pre>';
-        // print_r($this->user);
+        $title = 'Trang danh sách';
+        $data = $this->user->findAll();
 
-        // $data = $this->user->paginate($_GET['page'] ?? 1, 2);
+        return view(
+            'admin.users.index',
+            compact('title', 'data')
+        );
+    }
 
-        // $data = $this->user->find(2);
+    public function testUploadFile()
+    {
+        try {
+            $this->uploadFile($_FILES['avatar'], 'users');
 
-        // $data = $this->user->count();
+            $_SESSION['msg'] = 'Upload file THÀNH CÔNG!';
+        } catch (\Throwable $th) {
+            $this->logError($th->getMessage());
 
-        // $this->user->update(1, ['name' => 'QKA']);
+            $_SESSION['msg'] = 'Upload file THẤT BẠI!';
+        }
 
-        // $data = $this->user->delete(2);
-        // print_r($data);
-
-        // $newUserId = $this->user->insert([
-        //     'name' => 'Ahihi3',
-        //     'email' => 'john3@example.com',
-        //     'password' => password_hash('12345678', PASSWORD_DEFAULT),
-        //     'type' => 'client'
-        // ]);
-
-        // echo $newUserId;
+        header('Location: /admin/users');
+        exit;
     }
 }
