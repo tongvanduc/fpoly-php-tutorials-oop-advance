@@ -8,7 +8,7 @@ class Controller
         $date = date('d-m-Y');
 
         // Type: 3 - Ghi vào file
-        error_log($message, 3, "logs/$date.log");
+        error_log($message, 3, "storage/logs/$date.log");
     }
     
     public function uploadFile(array $file, $folder = null) {
