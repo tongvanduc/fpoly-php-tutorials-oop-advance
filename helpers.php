@@ -46,7 +46,7 @@ if (!function_exists('slug')) {
         $string = preg_replace('/[\s]+/', $separator, $string);
 
         // Loại bỏ các ký tự phân cách ở đầu và cuối chuỗi
-        $string = trim($string, $separator) . random_string(6);
+        $string = trim($string, $separator) . '-' . random_string(6);
 
         return $string;
     }
