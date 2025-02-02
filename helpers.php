@@ -15,6 +15,17 @@ if (!function_exists('view')) {
     }
 }
 
+if (!function_exists('file_url')) {
+    function file_url($path)
+    {
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        return $_ENV['APP_URL'] . $path;
+    }
+}
+
 if (!function_exists('debug')) {
     function debug(...$data)
     {
