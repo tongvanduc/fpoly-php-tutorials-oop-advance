@@ -8,7 +8,8 @@ if (!function_exists('view')) {
         $views = __DIR__ . '/views';
         $cache = __DIR__ . '/storage/compiles';
 
-        $blade = new BladeOne($views, $cache, BladeOne::MODE_DEBUG); // MODE_DEBUG allows to pinpoint troubles.
+        // MODE_DEBUG allows to pinpoint troubles.
+        $blade = new BladeOne($views, $cache, BladeOne::MODE_DEBUG); 
         
         echo $blade->run($view, $data);
     }
