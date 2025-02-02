@@ -14,3 +14,12 @@ if (!function_exists('view')) {
         echo $blade->run($view, $data);
     }
 }
+
+if (!function_exists('debug')) {
+    function debug(...$data)
+    {
+        echo '<pre>';
+        print_r($data);
+        die;
+    }
+}
