@@ -2,14 +2,15 @@
 
 namespace App\Controllers\Client;
 
-use App\Models\Product;
+use App\Controller;
 
-class HomeController
+class HomeController extends Controller
 {
-    public function index() {
+    public function index()
+    {
+        $heading1 = 'Trang chủ';
+        $subHeading1 = '******************************';
 
-        $data = Product::getAll();
-
-        require 'views/client/home.php';
+        return view('client.home', compact('heading1', 'subHeading1'));
     }
 }
