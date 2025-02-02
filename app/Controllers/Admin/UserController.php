@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $title = 'Trang danh sách';
+        $title = '<i>Trang danh sách</i>';
         $data = $this->user->findAll();
 
         return view(
@@ -28,7 +28,7 @@ class UserController extends Controller
     public function testUploadFile()
     {
         try {
-            $this->uploadFile($_FILES['avatar'], 'users');
+            $pathFile = $this->uploadFile($_FILES['avatar'], 'users');
 
             $_SESSION['msg'] = 'Upload file THÀNH CÔNG!';
         } catch (\Throwable $th) {

@@ -27,6 +27,10 @@ class Controller
         $destPath = $uploadDir . $fileName;
 
         // Di chuyển file từ thư mục tạm thời đến thư mục đích
-        return move_uploaded_file($fileTmpPath, $destPath);
+        if (move_uploaded_file($fileTmpPath, $destPath)) {
+            return $destPath;
+        }
+        
+        throw new \Exception('Lỗi upload file!');
     }
 }
