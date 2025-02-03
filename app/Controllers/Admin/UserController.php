@@ -40,23 +40,21 @@ class UserController extends Controller
                 $data,
                 [
                     'name'                  => 'required|max:50',
-                    'email'                 => 'required|email|max:100',
+                    'email'                 => [
+                        'required',
+                        'email',
+                        function ($value) {
+                            if ($this->user->checkExistsEmailForCreate($value)) {
+                                return ":attribute has existed";
+                            }
+                        }
+                    ],
                     'password'              => 'required|min:6|max:30',
                     'confirm_password'      => 'required|same:password',
                     'avatar'                => 'nullable|uploaded_file:0,2048K,png,jpeg,jpg',
                     'type'                  => [$validator('in', ['admin', 'client'])]
                 ]
             );
-
-            // Nếu Không có lỗi khi validate hoặc không tồn tại lỗi liên quan đển email
-            // Thì mới tiến hành check lỗi có bị trùng email không
-            // Nếu có thì lưu lỗi vào thằng error email
-            if (
-                (empty($errors) || !isset($errors['email']))
-                && $this->user->checkExistsEmailForCreate($data['email'])
-            ) {
-                $errors['email'] = 'Email đã tồn tại';
-            }
 
             if (!empty($errors)) {
                 $_SESSION['status']     = false;
@@ -136,20 +134,21 @@ class UserController extends Controller
                 $data,
                 [
                     'name'                  => 'required|max:50',
-                    'email'                 => 'required|email|max:100',
+                    'email'                 => [
+                        'required',
+                        'email',
+                        function ($value) use ($id) {
+                            if ($this->user->checkExistsEmailForUpdate($id, $value)) {
+                                return ":attribute has existed";
+                            }
+                        }
+                    ],
                     'password'              => 'required|min:6|max:30',
                     'confirm_password'      => 'required|same:password',
                     'avatar'                => 'nullable|uploaded_file:0,2048K,png,jpeg,jpg',
                     'type'                  => [$validator('in', ['admin', 'client'])]
                 ]
             );
-
-            if (
-                (empty($errors) || !isset($errors['email']))
-                && $this->user->checkExistsEmailForUpdate($id, $data['email'])
-            ) {
-                $errors['email'] = 'Email đã tồn tại';
-            }
 
             if (!empty($errors)) {
                 $_SESSION['status']     = false;
