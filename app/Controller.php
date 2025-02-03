@@ -4,10 +4,8 @@ namespace App;
 
 class Controller
 {
-    public function validate($validator, $data, $rules, $messages = [])
+    public function validate($validator, $data, $rules)
     {
-        $validator->setMessages($messages);
-
         $validation = $validator->make($data, $rules);
 
         // then validate
