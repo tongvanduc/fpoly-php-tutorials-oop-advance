@@ -52,10 +52,10 @@ class UserController extends Controller
             // Thì mới tiến hành check lỗi có bị trùng email không
             // Nếu có thì lưu lỗi vào thằng error email
             if (
-                ( empty($errors) || !isset($errors['email']) )
+                (empty($errors) || !isset($errors['email']))
                 && $this->user->checkExistsEmailForCreate($data['email'])
-                ) {
-                    $errors['email'] = 'Email đã tồn tại';
+            ) {
+                $errors['email'] = 'Email đã tồn tại';
             }
 
             if (!empty($errors)) {
@@ -102,7 +102,7 @@ class UserController extends Controller
         if (empty($user)) {
             redirect404();
         }
-        
+
         return view('admin.users.show', compact('user'));
     }
 
@@ -145,10 +145,10 @@ class UserController extends Controller
             );
 
             if (
-                ( empty($errors) || !isset($errors['email']) )
+                (empty($errors) || !isset($errors['email']))
                 && $this->user->checkExistsEmailForUpdate($id, $data['email'])
-                ) {
-                    $errors['email'] = 'Email đã tồn tại';
+            ) {
+                $errors['email'] = 'Email đã tồn tại';
             }
 
             if (!empty($errors)) {
