@@ -78,8 +78,6 @@ class UserController extends Controller
                 $data['avatar'] = null;
             }
 
-            debug($data);
-
             // Điểu chỉnh dữ liệu
             unset($data['confirm_password']);
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
@@ -89,6 +87,7 @@ class UserController extends Controller
 
             $_SESSION['status'] = true;
             $_SESSION['msg'] = 'Thao tác thành công!';
+            $_SESSION['data'] = null;
 
             redirect('/admin/users');
         } catch (\Throwable $th) {
@@ -110,7 +109,9 @@ class UserController extends Controller
             redirect404();
         }
 
-        return view('admin.users.show', compact('user'));
+        $title = 'Chi tiết người dùng';
+
+        return view('admin.users.show', compact('user', 'title'));
     }
 
     public function edit($id)
@@ -121,7 +122,9 @@ class UserController extends Controller
             redirect404();
         }
 
-        return view('admin.users.edit', compact('user'));
+        $title = 'Cập nhật người dùng';
+
+        return view('admin.users.edit', compact('user', 'title'));
     }
 
     public function update($id)
@@ -190,8 +193,9 @@ class UserController extends Controller
 
             $_SESSION['status'] = true;
             $_SESSION['msg'] = 'Thao tác thành công!';
+            $_SESSION['data'] = null;
 
-            redirect('/admin/users');
+            redirect('/admin/users/edit/' . $id);
         } catch (\Throwable $th) {
             $this->logError($th->__tostring());
 
@@ -199,13 +203,23 @@ class UserController extends Controller
             $_SESSION['msg'] = 'Thao tác KHÔNG thành công!';
             $_SESSION['data'] = $_POST;
 
-            redirect('/admin/users/create');
+            redirect('/admin/users/edit/' . $id);
         }
     }
 
     public function delete($id)
     {
+        $user = $this->user->find($id);
+
+        if (empty($user)) {
+            redirect404();
+        }
+
         $this->user->delete($id);
+
+        if ($user['avatar'] && file_exists($user['avatar'])) {
+            unlink($user['avatar']);
+        }
 
         $_SESSION['status'] = true;
         $_SESSION['msg'] = 'Thao tác thành công!';

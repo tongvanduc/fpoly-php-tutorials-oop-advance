@@ -13,6 +13,9 @@
     </nav>
     <h1 class="h2">{{ $title }}</h1>
 
+    @include('admin.components.display-msg-fail')
+    @include('admin.components.display-msg-success')
+
     <div class="row">
         <div class="col-12 mb-4 mb-lg-0">
             <div class="card">
@@ -34,11 +37,11 @@
                             <tbody>
                                 @foreach ($data as $user)
                                     <tr>
-                                        <th scope="row">{{ $user['id'] }}</th>
+                                        <td scope="row">{{ $user['id'] }}</td>
                                         <td>{{ $user['name'] }}</td>
                                         <td>{{ $user['email'] }}</td>
                                         <td>
-                                            <img src="{{ file_url($user['avatar']) }}" alt="">
+                                            <img src="{{ file_url($user['avatar']) }}" width="100px" alt="">
                                         </td>
                                         <td>
                                             @if ($user['type'] == 'admin')
