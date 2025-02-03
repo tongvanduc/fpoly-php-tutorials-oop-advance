@@ -2,13 +2,10 @@
 
 namespace App;
 
-use Rakit\Validation\Validator;
-
 class Controller
 {
     public function validate($validator, $data, $rules, $messages = [])
     {
-
         $validator->setMessages($messages);
 
         $validation = $validator->make($data, $rules);
@@ -27,8 +24,10 @@ class Controller
     {
         $date = date('d-m-Y');
 
+        $message = date('d-m-Y H:i:s') . ' - ' . $message . PHP_EOL;
+
         // Type: 3 - Ghi vào file
-        error_log($message . PHP_EOL, 3, "storage/logs/$date.log");
+        error_log($message, 3, "storage/logs/$date.log");
     }
 
     public function uploadFile(array $file, $folder = null)
