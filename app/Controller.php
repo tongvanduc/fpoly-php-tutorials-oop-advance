@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App;
 
@@ -6,15 +6,16 @@ use Rakit\Validation\Validator;
 
 class Controller
 {
-    public function validate($validator, $data, $rules, $messages = []) {
-        
+    public function validate($validator, $data, $rules, $messages = [])
+    {
+
         $validator->setMessages($messages);
 
         $validation = $validator->make($data, $rules);
-        
+
         // then validate
         $validation->validate();
-        
+
         if ($validation->fails()) {
             return $validation->errors()->firstOfAll();
         }
@@ -22,14 +23,16 @@ class Controller
         return [];
     }
 
-    public function logError($message) {
+    public function logError($message)
+    {
         $date = date('d-m-Y');
 
         // Type: 3 - Ghi vào file
-        error_log($message, 3, "storage/logs/$date.log");
+        error_log($message . PHP_EOL, 3, "storage/logs/$date.log");
     }
-    
-    public function uploadFile(array $file, $folder = null) {
+
+    public function uploadFile(array $file, $folder = null)
+    {
         // Thông tin về file
         $fileTmpPath = $file['tmp_name']; // Đường dẫn tạm thời của file
         $fileName = time() . '-' . $file['name']; // Tên file chống trùng bằng timestamp
@@ -48,7 +51,7 @@ class Controller
         if (move_uploaded_file($fileTmpPath, $destPath)) {
             return $destPath;
         }
-        
+
         throw new \Exception('Lỗi upload file!');
     }
 }

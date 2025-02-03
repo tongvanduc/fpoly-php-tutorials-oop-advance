@@ -15,8 +15,8 @@ if (!function_exists('view')) {
     }
 }
 
-if (!function_exists('isUpload')) {
-    function isUpload($key)
+if (!function_exists('is_upload')) {
+    function is_upload($key)
     {
         return isset($_FILES[$key]) && $_FILES[$key]['size'] > 0;
     }

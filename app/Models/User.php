@@ -17,7 +17,7 @@ class User extends Model
         $queryBuilder->select('COUNT(*)')
             ->from($this->tableName)
             ->where('email = :email')
-            ->setParameter(':email', $email);
+            ->setParameter('email', $email);
 
         // Thực thi query và lấy kết quả
         $result = $queryBuilder->fetchOne();
@@ -36,8 +36,8 @@ class User extends Model
             ->from($this->tableName)
             ->where('email = :email')
             ->andWhere('id != :id')  // Điều kiện id khác với giá trị id được cung cấp
-            ->setParameter(':email', $email)
-            ->setParameter(':id', $id);
+            ->setParameter('email', $email)
+            ->setParameter('id', $id);
 
         // Thực thi query và lấy kết quả
         $result = $queryBuilder->fetchOne();

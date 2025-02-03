@@ -17,14 +17,18 @@ class UserController extends Controller
 
     public function index()
     {
+        $title = 'Danh sách người dùng';
+
         $data = $this->user->findAll();
 
-        return view('admin.users.index', compact('data'));
+        return view('admin.users.index', compact('data', 'title'));
     }
 
     public function create()
     {
-        return view('admin.users.create');
+        $title = 'Thêm mới người dùng';
+
+        return view('admin.users.create', compact('title'));
     }
 
     public function store()
@@ -44,7 +48,9 @@ class UserController extends Controller
                         'required',
                         'email',
                         function ($value) {
-                            if ($this->user->checkExistsEmailForCreate($value)) {
+                            $flag = (new User)->checkExistsEmailForCreate($value);
+
+                            if ($flag) {
                                 return ":attribute has existed";
                             }
                         }
@@ -66,13 +72,16 @@ class UserController extends Controller
             }
 
             // Upload file 
-            if (isUpload('avatar')) {
+            if (is_upload('avatar')) {
                 $data['avatar'] = $this->uploadFile($data['avatar'], 'users');
+            } else {
+                $data['avatar'] = null;
             }
 
-            // Xử lý lại dữ liệu cho đúng
-            unset($data['confirm_password']);
+            debug($data);
 
+            // Điểu chỉnh dữ liệu
+            unset($data['confirm_password']);
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
             // Insert
@@ -83,12 +92,12 @@ class UserController extends Controller
 
             redirect('/admin/users');
         } catch (\Throwable $th) {
-            $this->logError($th->getMessage());
+            $this->logError($th->__tostring());
 
             $_SESSION['status'] = false;
             $_SESSION['msg'] = 'Thao tác KHÔNG thành công!';
             $_SESSION['data'] = $_POST;
-
+            debug($th);
             redirect('/admin/users/create');
         }
     }
@@ -138,13 +147,13 @@ class UserController extends Controller
                         'required',
                         'email',
                         function ($value) use ($id) {
-                            if ($this->user->checkExistsEmailForUpdate($id, $value)) {
+                            $flag = (new User)->checkExistsEmailForUpdate($id, $value);
+
+                            if ($flag) {
                                 return ":attribute has existed";
                             }
                         }
                     ],
-                    'password'              => 'required|min:6|max:30',
-                    'confirm_password'      => 'required|same:password',
                     'avatar'                => 'nullable|uploaded_file:0,2048K,png,jpeg,jpg',
                     'type'                  => [$validator('in', ['admin', 'client'])]
                 ]
@@ -160,22 +169,20 @@ class UserController extends Controller
             }
 
             // Upload file 
-            if (isUpload('avatar')) {
+            if (is_upload('avatar')) {
                 $data['avatar'] = $this->uploadFile($data['avatar'], 'users');
+            } else {
+                $data['avatar'] = $user['avatar'];
             }
 
-            // Xử lý lại dữ liệu cho đúng
-            unset($data['confirm_password']);
-
-            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            // Điểu chỉnh dữ liệu
             $data['updated_at'] = date('Y-m-d H:i:s');
 
             // Insert
             $this->user->update($id, $data);
 
             if (
-                isUpload('avatar')
-                && $user['avatar']
+                $data['avatar'] != $user['avatar']
                 && file_exists($user['avatar'])
             ) {
                 unlink($user['avatar']);
@@ -186,7 +193,7 @@ class UserController extends Controller
 
             redirect('/admin/users');
         } catch (\Throwable $th) {
-            $this->logError($th->getMessage());
+            $this->logError($th->__tostring());
 
             $_SESSION['status'] = false;
             $_SESSION['msg'] = 'Thao tác KHÔNG thành công!';
