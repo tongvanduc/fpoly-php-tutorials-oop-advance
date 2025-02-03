@@ -13,31 +13,4 @@ class UserController extends Controller
     {
         $this->user = new User();
     }
-
-    public function index()
-    {
-        $title = '<i>Trang danh sách</i>';
-        $data = $this->user->findAll();
-
-        return view(
-            'admin.users.index',
-            compact('title', 'data')
-        );
-    }
-
-    public function testUploadFile()
-    {
-        try {
-            $pathFile = $this->uploadFile($_FILES['avatar'], 'users');
-
-            $_SESSION['msg'] = 'Upload file THÀNH CÔNG!';
-        } catch (\Throwable $th) {
-            $this->logError($th->getMessage());
-
-            $_SESSION['msg'] = 'Upload file THẤT BẠI!';
-        }
-
-        header('Location: /admin/users');
-        exit;
-    }
 }
