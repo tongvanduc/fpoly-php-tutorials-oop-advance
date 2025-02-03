@@ -15,6 +15,29 @@ if (!function_exists('view')) {
     }
 }
 
+if (!function_exists('isUpload')) {
+    function isUpload($key)
+    {
+        return isset($_FILES[$key]) && $_FILES[$key]['size'] > 0;
+    }
+}
+
+if (!function_exists('redirect')) {
+    function redirect($path)
+    {
+        header('Location: ' . $path);
+        exit;
+    }
+}
+
+if (!function_exists('redirect404')) {
+    function redirect404()
+    {
+        header('HTTP/1.1 404 Not Found');
+        exit;
+    }
+}
+
 if (!function_exists('file_url')) {
     function file_url($path)
     {

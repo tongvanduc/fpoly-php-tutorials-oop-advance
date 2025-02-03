@@ -2,8 +2,26 @@
 
 namespace App;
 
+use Rakit\Validation\Validator;
+
 class Controller
 {
+    public function validate($validator, $data, $rules, $messages = []) {
+        
+        $validator->setMessages($messages);
+
+        $validation = $validator->make($data, $rules);
+        
+        // then validate
+        $validation->validate();
+        
+        if ($validation->fails()) {
+            return $validation->errors()->firstOfAll();
+        }
+
+        return [];
+    }
+
     public function logError($message) {
         $date = date('d-m-Y');
 
