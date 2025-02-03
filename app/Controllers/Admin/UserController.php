@@ -168,6 +168,7 @@ class UserController extends Controller
             unset($data['confirm_password']);
 
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            $data['updated_at'] = date('Y-m-d H:i:s');
 
             // Insert
             $this->user->update($id, $data);
