@@ -182,7 +182,7 @@ class UserController extends Controller
             // Điểu chỉnh dữ liệu
             $data['updated_at'] = date('Y-m-d H:i:s');
 
-            // Insert
+            // Update
             $this->user->update($id, $data);
 
             if (
