@@ -83,7 +83,7 @@ class UserController extends Controller
             // Điểu chỉnh dữ liệu
             unset($data['confirm_password']);
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
+            
             // Insert
             $this->user->insert($data);
 
@@ -169,7 +169,7 @@ class UserController extends Controller
                 $_SESSION['msg']        = 'Thao tác KHÔNG thành công!';
                 $_SESSION['errors']     = $errors;
 
-                redirect('/admin/users/create');
+                redirect('/admin/users/edit/' . $id);
             }
 
             // Upload file 
@@ -187,6 +187,7 @@ class UserController extends Controller
 
             if (
                 $data['avatar'] != $user['avatar']
+                && $user['avatar']
                 && file_exists($user['avatar'])
             ) {
                 unlink($user['avatar']);
