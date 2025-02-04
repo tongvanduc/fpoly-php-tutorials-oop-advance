@@ -38,6 +38,34 @@ if (!function_exists('redirect404')) {
     }
 }
 
+if (!function_exists('middleware_auth')) {
+    function middleware_auth()
+    {
+        $currentUrl = $_SERVER['REQUEST_URI'];
+        $authRegex = '/^\/(auth|login|register)$/';
+        $adminUrlRegex = '/^\/admin/';
+
+        // Nếu người dùng chưa đăng nhập
+        if (empty($_SESSION['user'])) {
+            // Chuyển hướng nếu không phải trang đăng nhập, đăng ký, hoặc trang chủ
+            if ($currentUrl !== '/' && !preg_match($authRegex, $currentUrl)) {
+                redirect('/auth');
+            }
+        } else {
+            // Nếu người dùng đã đăng nhập và đang truy cập trang đăng nhập, đăng ký
+            if (preg_match($authRegex, $currentUrl)) {
+                $redirectTo = ($_SESSION['user']['type'] == 'admin') ? '/admin' : '/';
+                redirect($redirectTo);
+            }
+
+            // Kiểm tra quyền truy cập vào trang admin
+            if (preg_match($adminUrlRegex, $currentUrl) && $_SESSION['user']['type'] != 'admin') {
+                redirect('/');
+            }
+        }
+    }
+}
+
 if (!function_exists('file_url')) {
     function file_url($path)
     {

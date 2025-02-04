@@ -45,4 +45,22 @@ class User extends Model
         // Kiểm tra nếu số lượng lớn hơn 0, tức là email đã tồn tại
         return $result > 0;
     }
+
+    public function getUserByEmail($email)
+    {
+        // Khởi tạo QueryBuilder
+        $queryBuilder = $this->connection->createQueryBuilder();
+
+        // Tạo query kiểm tra sự tồn tại của email
+        $queryBuilder->select('*')
+            ->from($this->tableName)
+            ->where('email = :email')
+            ->setParameter('email', $email);
+
+        // Thực thi query và lấy kết quả
+        $result = $queryBuilder->fetchAssociative();
+
+        // Kiểm tra nếu số lượng lớn hơn 0, tức là email đã tồn tại
+        return $result;
+    }
 }
