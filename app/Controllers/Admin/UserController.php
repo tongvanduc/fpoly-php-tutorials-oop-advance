@@ -69,6 +69,8 @@ class UserController extends Controller
                 $_SESSION['errors']     = $errors;
 
                 redirect('/admin/users/create');
+            } else {
+                $_SESSION['data'] = null;
             }
 
             // Upload file 
@@ -96,7 +98,7 @@ class UserController extends Controller
             $_SESSION['status'] = false;
             $_SESSION['msg'] = 'Thao tác KHÔNG thành công!';
             $_SESSION['data'] = $_POST;
-            debug($th);
+
             redirect('/admin/users/create');
         }
     }
@@ -165,7 +167,6 @@ class UserController extends Controller
             if (!empty($errors)) {
                 $_SESSION['status']     = false;
                 $_SESSION['msg']        = 'Thao tác KHÔNG thành công!';
-                $_SESSION['data']       = $_POST;
                 $_SESSION['errors']     = $errors;
 
                 redirect('/admin/users/create');
@@ -193,7 +194,6 @@ class UserController extends Controller
 
             $_SESSION['status'] = true;
             $_SESSION['msg'] = 'Thao tác thành công!';
-            $_SESSION['data'] = null;
 
             redirect('/admin/users/edit/' . $id);
         } catch (\Throwable $th) {
@@ -201,7 +201,6 @@ class UserController extends Controller
 
             $_SESSION['status'] = false;
             $_SESSION['msg'] = 'Thao tác KHÔNG thành công!';
-            $_SESSION['data'] = $_POST;
 
             redirect('/admin/users/edit/' . $id);
         }
