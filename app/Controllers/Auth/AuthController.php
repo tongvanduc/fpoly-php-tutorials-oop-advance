@@ -53,7 +53,7 @@ class AuthController extends Controller
                     $_SESSION['errors']['email'] = 'Email does not exist!';
                 }
 
-                if (isset($user['password']) && !$checkPass) {
+                if (isset($user['password']) && !$checkPass && !isset($_SESSION['errors']['password'])) {
                     $_SESSION['errors']['verify'] = 'Incorrect password!';
                 }
 
