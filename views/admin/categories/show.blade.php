@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-12 mb-4 mb-lg-0">
             <div class="card">
-                <a href="/admin/users/create" class="btn btn-sm btn-success">Create</a>
+                <a href="/admin/categories/create" class="btn btn-sm btn-success">Create</a>
 
                 <div class="card-body">
                     <div class="table-responsive">
@@ -28,27 +28,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($user as $field => $value)
+                                @foreach ($category as $field => $value)
                                     <tr>
                                         <td>{{ strtoupper($field) }}</td>
                                         <td>
                                             @switch($field)
-                                                @case('avatar')
-                                                    {{-- <img src="{{ file_url($user['avatar']) }}" width="100px" alt=""> --}}
+                                                @case('img')
                                                     <img src="{{ file_url($value) }}" width="100px" alt="">
                                                 @break
 
-                                                @case('type')
-                                                    {{-- @if ($user['type'] == 'admin') --}}
-                                                    @if ($value == 'admin')
-                                                        <span class="badge bg-danger">Admin</span>
+                                                @case('is_active')
+                                                    @if ($value)
+                                                        <span class="badge bg-info">YES</span>
                                                     @else
-                                                        <span class="badge bg-info">Client</span>
+                                                        <span class="badge bg-danger">NO</span>
                                                     @endif
-                                                @break
-
-                                                @case('password')
-                                                    ************************
                                                 @break
 
                                                 @default
@@ -60,7 +54,7 @@
                             </tbody>
                         </table>
 
-                        <a href="/admin/users" class="btn btn-warning">
+                        <a href="/admin/categories" class="btn btn-warning">
                             Back to list
                         </a>
                     </div>

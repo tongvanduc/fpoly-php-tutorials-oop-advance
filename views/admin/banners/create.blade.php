@@ -23,36 +23,24 @@
             <div class="card">
                 <div class="card-body">
                     <div class="container">
-                        <form action="/admin/users/update/{{ $user['id'] }}" method="POST" enctype="multipart/form-data">
+                        <form action="/admin/banners/store" method="POST" enctype="multipart/form-data">
                             <div class="mb-3 row">
                                 <label for="name" class="col-4 col-form-label">Name</label>
                                 <div class="col-8">
                                     <input type="text" class="form-control" name="name" id="name"
-                                        value="{{ $user['name'] }}" />
+                                        value="{{ $_SESSION['data']['name'] ?? null }}" />
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label for="email" class="col-4 col-form-label">Email</label>
+                                <label for="img" class="col-4 col-form-label">Img</label>
                                 <div class="col-8">
-                                    <input type="email" class="form-control" name="email" id="email"
-                                        value="{{ $user['email'] }}" />
+                                    <input type="file" class="form-control" name="img" id="img" />
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label for="avatar" class="col-4 col-form-label">Avatar</label>
+                                <label for="type" class="col-4 col-form-label">Is Active?</label>
                                 <div class="col-8">
-                                    <input type="file" class="form-control" name="avatar" id="avatar" />
-
-                                    <img src="{{ file_url($user['avatar']) }}" width="100px" alt="">
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label for="type" class="col-4 col-form-label">Type</label>
-                                <div class="col-8">
-                                    <select class="form-select" name="type" id="type">
-                                        <option value="admin" @selected($user['type'] == 'admin')>Admin</option>
-                                        <option value="client" @selected($user['type'] == 'client')>Client</option>
-                                    </select>
+                                    <input type="checkbox" class="form-checkbox" value="1" name="is_active" id="is_active" />
                                 </div>
                             </div>
 
@@ -62,7 +50,7 @@
                                         Submit
                                     </button>
 
-                                    <a href="/admin/users" class="btn btn-warning">
+                                    <a href="/admin/banners" class="btn btn-warning">
                                         Back to list
                                     </a>
                                 </div>

@@ -27,13 +27,15 @@
                             <div class="mb-3 row">
                                 <label for="name" class="col-4 col-form-label">Name</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" name="name" id="name" value="{{ $_SESSION['data']['name'] ?? null }}"/>
+                                    <input type="text" class="form-control" name="name" id="name"
+                                        value="{{ $_SESSION['data']['name'] ?? null }}" />
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="email" class="col-4 col-form-label">Email</label>
                                 <div class="col-8">
-                                    <input type="email" class="form-control" name="email" id="email" value="{{ $_SESSION['data']['email'] ?? null }}"/>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        value="{{ $_SESSION['data']['email'] ?? null }}" />
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -45,7 +47,8 @@
                             <div class="mb-3 row">
                                 <label for="confirm_password" class="col-4 col-form-label">Confirm Password</label>
                                 <div class="col-8">
-                                    <input type="password" class="form-control" name="confirm_password" id="confirm_password" />
+                                    <input type="password" class="form-control" name="confirm_password"
+                                        id="confirm_password" />
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -63,13 +66,13 @@
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <div class="mb-3 row">
                                 <div class="offset-sm-4 col-sm-8">
                                     <button type="submit" class="btn btn-primary">
                                         Submit
                                     </button>
-                                    
+
                                     <a href="/admin/users" class="btn btn-warning">
                                         Back to list
                                     </a>

@@ -3,32 +3,32 @@
 namespace App\Controllers\Admin;
 
 use App\Controller;
-use App\Models\User;
+use App\Models\Category;
 use Rakit\Validation\Validator;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
-    private User $user;
+    private Category $category;
 
     public function __construct()
     {
-        $this->user = new User();
+        $this->category = new Category();
     }
 
     public function index()
     {
-        $title = 'Danh sách người dùng';
+        $title = 'Danh sách danh mục';
 
-        $data = $this->user->findAll();
+        $data = $this->category->findAll();
 
-        return view('admin.users.index', compact('data', 'title'));
+        return view('admin.categories.index', compact('data', 'title'));
     }
 
     public function create()
     {
-        $title = 'Thêm mới người dùng';
+        $title = 'Thêm mới danh mục';
 
-        return view('admin.users.create', compact('title'));
+        return view('admin.categories.create', compact('title'));
     }
 
     public function store()
@@ -43,22 +43,19 @@ class UserController extends Controller
                 $validator,
                 $data,
                 [
-                    'name'                  => 'required|max:50',
-                    'email'                 => [
+                    'name'                 => [
                         'required',
-                        'email',
+                        'max:50',
                         function ($value) {
-                            $flag = (new User)->checkExistsEmailForCreate($value);
+                            $flag = (new Category)->checkExistsNameForCreate($value);
 
                             if ($flag) {
                                 return ":attribute has existed";
                             }
                         }
                     ],
-                    'password'              => 'required|min:6|max:30',
-                    'confirm_password'      => 'required|same:password',
-                    'avatar'                => 'nullable|uploaded_file:0,2048K,png,jpeg,jpg',
-                    'type'                  => [$validator('in', ['admin', 'client'])]
+                    'img'                   => 'nullable|uploaded_file:0,2048K,png,jpeg,jpg',
+                    'is_active'             => [$validator('in', [0, 1])]
                 ]
             );
 
@@ -68,29 +65,28 @@ class UserController extends Controller
                 $_SESSION['data']       = $_POST;
                 $_SESSION['errors']     = $errors;
 
-                redirect('/admin/users/create');
+                redirect('/admin/categories/create');
             } else {
                 $_SESSION['data'] = null;
             }
 
             // Upload file 
-            if (is_upload('avatar')) {
-                $data['avatar'] = $this->uploadFile($data['avatar'], 'users');
+            if (is_upload('img')) {
+                $data['img'] = $this->uploadFile($data['img'], 'categories');
             } else {
-                $data['avatar'] = null;
+                $data['img'] = null;
             }
 
             // Điểu chỉnh dữ liệu
-            unset($data['confirm_password']);
-            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            $data['is_active'] = $data['is_active'] ?? 0;
             
             // Insert
-            $this->user->insert($data);
+            $this->category->insert($data);
 
             $_SESSION['status'] = true;
             $_SESSION['msg'] = 'Thao tác thành công!';
 
-            redirect('/admin/users');
+            redirect('/admin/categories');
         } catch (\Throwable $th) {
             $this->logError($th->__tostring());
 
@@ -98,41 +94,41 @@ class UserController extends Controller
             $_SESSION['msg'] = 'Thao tác KHÔNG thành công!';
             $_SESSION['data'] = $_POST;
 
-            redirect('/admin/users/create');
+            redirect('/admin/categories/create');
         }
     }
 
     public function show($id)
     {
-        $user = $this->user->find($id);
+        $category = $this->category->find($id);
 
-        if (empty($user)) {
+        if (empty($category)) {
             redirect404();
         }
 
-        $title = 'Chi tiết người dùng';
+        $title = 'Chi tiết danh mục';
 
-        return view('admin.users.show', compact('user', 'title'));
+        return view('admin.categories.show', compact('category', 'title'));
     }
 
     public function edit($id)
     {
-        $user = $this->user->find($id);
+        $category = $this->category->find($id);
 
-        if (empty($user)) {
+        if (empty($category)) {
             redirect404();
         }
 
-        $title = 'Cập nhật người dùng';
+        $title = 'Cập nhật danh mục';
 
-        return view('admin.users.edit', compact('user', 'title'));
+        return view('admin.categories.edit', compact('category', 'title'));
     }
 
     public function update($id)
     {
-        $user = $this->user->find($id);
+        $category = $this->category->find($id);
 
-        if (empty($user)) {
+        if (empty($category)) {
             redirect404();
         }
 
@@ -146,20 +142,19 @@ class UserController extends Controller
                 $validator,
                 $data,
                 [
-                    'name'                  => 'required|max:50',
-                    'email'                 => [
+                    'name'                 => [
                         'required',
-                        'email',
+                        'max:50',
                         function ($value) use ($id) {
-                            $flag = (new User)->checkExistsEmailForUpdate($id, $value);
+                            $flag = (new Category)->checkExistsNameForUpdate($id, $value);
 
                             if ($flag) {
                                 return ":attribute has existed";
                             }
                         }
                     ],
-                    'avatar'                => 'nullable|uploaded_file:0,2048K,png,jpeg,jpg',
-                    'type'                  => [$validator('in', ['admin', 'client'])]
+                    'img'                   => 'nullable|uploaded_file:0,2048K,png,jpeg,jpg',
+                    'is_active'             => [$validator('in', [0, 1])]
                 ]
             );
 
@@ -168,61 +163,62 @@ class UserController extends Controller
                 $_SESSION['msg']        = 'Thao tác KHÔNG thành công!';
                 $_SESSION['errors']     = $errors;
 
-                redirect('/admin/users/edit/' . $id);
+                redirect('/admin/categories/edit/' . $id);
             }
 
             // Upload file 
-            if (is_upload('avatar')) {
-                $data['avatar'] = $this->uploadFile($data['avatar'], 'users');
+            if (is_upload('img')) {
+                $data['img'] = $this->uploadFile($data['img'], 'categories');
             } else {
-                $data['avatar'] = $user['avatar'];
+                $data['img'] = $category['img'];
             }
 
             // Điểu chỉnh dữ liệu
+            $data['is_active'] = $data['is_active'] ?? 0;
             $data['updated_at'] = date('Y-m-d H:i:s');
 
             // Update
-            $this->user->update($id, $data);
+            $this->category->update($id, $data);
 
             if (
-                $data['avatar'] != $user['avatar']
-                && $user['avatar']
-                && file_exists($user['avatar'])
+                $data['img'] != $category['img']
+                && $category['img']
+                && file_exists($category['img'])
             ) {
-                unlink($user['avatar']);
+                unlink($category['img']);
             }
 
             $_SESSION['status'] = true;
             $_SESSION['msg'] = 'Thao tác thành công!';
 
-            redirect('/admin/users/edit/' . $id);
+            redirect('/admin/categories/edit/' . $id);
         } catch (\Throwable $th) {
             $this->logError($th->__tostring());
 
             $_SESSION['status'] = false;
             $_SESSION['msg'] = 'Thao tác KHÔNG thành công!';
 
-            redirect('/admin/users/edit/' . $id);
+            redirect('/admin/categories/edit/' . $id);
         }
     }
 
     public function delete($id)
     {
-        $user = $this->user->find($id);
+        $category = $this->category->find($id);
 
-        if (empty($user)) {
+        if (empty($category)) {
             redirect404();
         }
 
-        $this->user->delete($id);
+        $this->category->delete($id);
 
-        if ($user['avatar'] && file_exists($user['avatar'])) {
-            unlink($user['avatar']);
+        if ($category['img'] && file_exists($category['img'])) {
+            unlink($category['img']);
         }
 
         $_SESSION['status'] = true;
         $_SESSION['msg'] = 'Thao tác thành công!';
 
-        redirect('/admin/users');
+        redirect('/admin/categories');
     }
 }
