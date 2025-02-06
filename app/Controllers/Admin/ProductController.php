@@ -66,7 +66,7 @@ class ProductController extends Controller
                 $_SESSION['data']       = $_POST;
                 $_SESSION['errors']     = $errors;
 
-                redirect('/admin/products/edit/' . $id);
+                redirect('/admin/products/create');
             } else {
                 $_SESSION['data'] = null;
             }
