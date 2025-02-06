@@ -47,8 +47,12 @@ if (!function_exists('middleware_auth')) {
 
         // Nếu người dùng chưa đăng nhập
         if (empty($_SESSION['user'])) {
-            // Chuyển hướng nếu không phải trang đăng nhập, đăng ký, hoặc trang chủ
-            if ($currentUrl !== '/' && !preg_match($authRegex, $currentUrl)) {
+
+            // Chuyển hướng trang
+            if (
+                !preg_match($authRegex, $currentUrl)
+                && preg_match($adminUrlRegex, $currentUrl)
+            ) {
                 redirect('/auth');
             }
         } else {
