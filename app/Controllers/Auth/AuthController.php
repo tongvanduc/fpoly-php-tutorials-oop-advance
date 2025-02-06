@@ -11,9 +11,7 @@ class AuthController extends Controller
     private User $user;
 
     public function __construct()
-    {
-        middleware_auth();
-        
+    {        
         $this->user = new User();
     }
 
