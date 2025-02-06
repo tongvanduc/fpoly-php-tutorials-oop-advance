@@ -39,6 +39,8 @@
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
                     </ul>
                 </div>
+            @else
+                <a href="/auth" class="btn btn-secondary">Auth</a>
             @endif
 
         </div>
