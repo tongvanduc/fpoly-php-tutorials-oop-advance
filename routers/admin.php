@@ -3,6 +3,7 @@
 use App\Controllers\Admin\BannerController;
 use App\Controllers\Admin\CategoryController;
 use App\Controllers\Admin\DashboardController;
+use App\Controllers\Admin\ProductController;
 use App\Controllers\Admin\UserController;
 
 $router->mount('/admin', function() use ($router) {
@@ -34,4 +35,12 @@ $router->mount('/admin', function() use ($router) {
     $router->get('/banners/edit/{id}',    BannerController::class . '@edit');
     $router->post('/banners/update/{id}', BannerController::class . '@update');
     $router->get('/banners/delete/{id}',  BannerController::class . '@delete');
+
+    $router->get('/products',              ProductController::class . '@index');
+    $router->get('/products/create',       ProductController::class . '@create');
+    $router->post('/products/store',       ProductController::class . '@store');
+    $router->get('/products/show/{id}',    ProductController::class . '@show');
+    $router->get('/products/edit/{id}',    ProductController::class . '@edit');
+    $router->post('/products/update/{id}', ProductController::class . '@update');
+    $router->get('/products/delete/{id}',  ProductController::class . '@delete');
 });

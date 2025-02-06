@@ -38,9 +38,10 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label for="type" class="col-4 col-form-label">Is Active?</label>
+                                <label for="is_active" class="col-4 col-form-label">Is Active?</label>
                                 <div class="col-8">
-                                    <input type="checkbox" class="form-checkbox" value="1" name="is_active" id="is_active" />
+                                    <input type="checkbox" class="form-checkbox" value="1" name="is_active"
+                                        id="is_active" />
                                 </div>
                             </div>
 

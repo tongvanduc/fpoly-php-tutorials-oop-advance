@@ -8,6 +8,17 @@ class Category extends Model
 {
     protected $tableName = 'categories';
 
+    public function getCategoryOnlyActive()
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder
+            ->select('*')
+            ->from($this->tableName)
+            ->where('is_active = 1');
+
+        return $queryBuilder->fetchAllAssociative();
+    }
+
     public function checkExistsNameForCreate($name)
     {
         // Khởi tạo QueryBuilder
