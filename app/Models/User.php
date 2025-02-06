@@ -60,7 +60,6 @@ class User extends Model
         // Thực thi query và lấy kết quả
         $result = $queryBuilder->fetchAssociative();
 
-        // Kiểm tra nếu số lượng lớn hơn 0, tức là email đã tồn tại
         return $result;
     }
 }
