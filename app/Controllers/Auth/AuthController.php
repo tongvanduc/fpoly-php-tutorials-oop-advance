@@ -62,9 +62,6 @@ class AuthController extends Controller
                 $_SESSION['data'] = null;
             }
 
-
-            $_SESSION['status'] = true;
-            $_SESSION['msg'] = 'Thao tác thành công!';
             $_SESSION['user'] = $user; // Lưu thông tin người dùng đã đăng nhập
 
             $redirectTo = ($_SESSION['user']['type'] == 'admin') ? '/admin' : '/';
