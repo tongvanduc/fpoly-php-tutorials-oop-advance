@@ -49,6 +49,7 @@ class ProductController extends Controller
                 $data,
                 [
                     'name'          => ['required', 'max:50'],
+                    'category_id'   => ['required'],
                     'overview'      => ['required', 'max:255'],
                     'content'       => ['required', 'max:60000'],
                     'price'         => ['required', 'numeric'],
@@ -149,6 +150,7 @@ class ProductController extends Controller
                 $data,
                 [
                     'name'          => ['required', 'max:50'],
+                    'category_id'   => ['required'],
                     'overview'      => ['required', 'max:255'],
                     'content'       => ['required', 'max:60000'],
                     'price'         => ['required', 'numeric'],
