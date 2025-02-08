@@ -89,6 +89,17 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <nav aria-label="Page navigation" class="d-flex">
+                        <ul class="pagination">
+                            @for ($i = 1; $i <= $totalPage; ++$i)
+                                <li class="page-item @if ($page == $i) active @endif">
+                                    <a class="page-link" href="/admin/products/?page={{ $i }}&limit={{ $limit }}">{{ $i }}</a>
+                                </li>
+                            @endfor
+                        </ul>
+                    </nav>
+
                 </div>
             </div>
         </div>
