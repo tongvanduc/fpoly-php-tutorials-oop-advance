@@ -65,7 +65,7 @@ class Model
 
         $queryBuilder->select('COUNT(*) as total')->from($this->tableName);
 
-        return $queryBuilder->fetchOne(); // 15
+        return $queryBuilder->fetchOne();
     }
 
     // Phương thức tìm bản ghi theo ID
