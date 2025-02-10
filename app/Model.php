@@ -30,6 +30,7 @@ class Model
     public function findAll()
     {
         $queryBuilder = $this->connection->createQueryBuilder();
+
         $queryBuilder->select('*')->from($this->tableName);
 
         return $queryBuilder->fetchAllAssociative();
@@ -64,13 +65,14 @@ class Model
 
         $queryBuilder->select('COUNT(*) as total')->from($this->tableName);
 
-        return $queryBuilder->fetchOne();
+        return $queryBuilder->fetchOne(); // 15
     }
 
     // Phương thức tìm bản ghi theo ID
     public function find($id)
     {
         $queryBuilder = $this->connection->createQueryBuilder();
+
         $queryBuilder->select('*')
             ->from($this->tableName)
             ->where('id = :id')
