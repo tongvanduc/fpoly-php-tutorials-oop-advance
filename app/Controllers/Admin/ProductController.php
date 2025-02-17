@@ -177,7 +177,7 @@ class ProductController extends Controller
             if (is_upload('img_thumbnail')) {
                 $data['img_thumbnail'] = $this->uploadFile($data['img_thumbnail'], 'products');
             } else {
-                $data['img_thumbnail'] = $product['img_thumbnail'];
+                $data['img_thumbnail'] = $product['p_img_thumbnail'];
             }
 
             // Điểu chỉnh dữ liệu
